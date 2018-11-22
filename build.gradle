@@ -1,0 +1,50 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.0.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'io.eol.hublomat'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/milestone" }
+}
+
+
+ext {
+    springCloudVersion = 'Greenwich.M3'
+    vaadinVersion = '11.0.2'
+    springCloudStreamBinderVersion = '1.0.0.RELEASE'
+}
+
+dependencies {
+    implementation('com.vaadin:vaadin-spring-boot-starter')
+    implementation('org.springframework.cloud:spring-cloud-starter-aws')
+    implementation('org.springframework.cloud:spring-cloud-starter-aws-messaging')
+
+    implementation("org.springframework.cloud:spring-cloud-stream-binder-kinesis:${springCloudStreamBinderVersion}")
+
+    compileOnly('org.projectlombok:lombok')
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
