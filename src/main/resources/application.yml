@@ -1,5 +1,33 @@
+logging:
+  level:
+    com:
+      amazonaws: INFO
+
+kinesis:
+  region: eu-central-1
+  stream: test_stream
+  client: kinesisClient
+
 cloud:
   aws:
     region:
       static: eu-central-1
 
+spring:
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        default_schema: PUBLIC
+        dialect: H2
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+  datasource:
+    bind: streamDb
+    url: jdbc:h2:mem:streamDb;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false
+    username: sa
+    password:
+    initialization-mode: embedded

@@ -12,6 +12,7 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
@@ -27,18 +28,54 @@ repositories {
 
 ext {
     springCloudVersion = 'Greenwich.M3'
-    vaadinVersion = '11.0.2'
     springCloudStreamBinderVersion = '1.0.0.RELEASE'
+    camelVersion = '2.22.2'
+    vaadinVersion = '11.0.2'
 }
 
 dependencies {
     implementation('com.vaadin:vaadin-spring-boot-starter')
+
+    // aws
     implementation('org.springframework.cloud:spring-cloud-starter-aws')
     implementation('org.springframework.cloud:spring-cloud-starter-aws-messaging')
 
     implementation("org.springframework.cloud:spring-cloud-stream-binder-kinesis:${springCloudStreamBinderVersion}")
 
+    implementation("org.apache.camel:camel-spring-boot-starter:${camelVersion}")
+    implementation("org.apache.camel:camel-aws:${camelVersion}")
+
+    // storage
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("com.h2database:h2")
+
+
+    // Support Java11 (does not contain JAXB in standard JRE anymore); however, JAXB is required by Spring Boot 2
+    implementation("javax.xml.bind:jaxb-api:2.3.0")
+    implementation("com.sun.xml.bind:jaxb-impl:2.3.0")
+    implementation("org.glassfish.jaxb:jaxb-runtime:2.3.0")
+    implementation("javax.activation:activation:1.1.1")
+
+    // Support Java11 (does not contain JAXB in standard JRE anymore); however, JAXB is required by Spring Boot 2
+    implementation("javax.xml.bind:jaxb-api:2.3.0")
+    implementation("com.sun.xml.bind:jaxb-impl:2.3.0")
+    implementation("org.glassfish.jaxb:jaxb-runtime:2.3.0")
+    implementation("javax.activation:activation:1.1.1")
+
+    // json handling
+    implementation("com.fasterxml.jackson.core:jackson-annotations:2.9.7")
+    implementation("com.fasterxml.jackson.core:jackson-core:2.9.7")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.9.7")
+
+    // Support Java8 datatypes
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8")
+
+    // code generation mapper
     compileOnly('org.projectlombok:lombok')
+    annotationProcessor('org.projectlombok:lombok')
+
+    // test
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
 
